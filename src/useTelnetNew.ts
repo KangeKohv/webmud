@@ -68,6 +68,7 @@ export const useTelnetNew = () => {
 
     const [status, setStatus] = useState<State>(State.CLOSED);
     const [lastMessage, setLastMessage] = useState<Uint8Array>();
+    const [lastTextMessage, setLastTextMessage] = useState("");
     const [onReceiveListeners, setOnReceiveListeners] = useState<{ (arg0: string): void }[]>([])
 
     const addReceiveListener = useMemo(() => ((func: { (arg0: string): void }) => {
@@ -113,7 +114,8 @@ export const useTelnetNew = () => {
         } else {
             const text = new TextDecoder().decode(arr);
             console.log(onReceiveListeners);
-            onReceiveListeners.forEach(fn => fn(text))
+            onReceiveListeners.forEach(fn => fn(text));
+            setLastTextMessage(text);
         }
         setLastMessage(arr);
     };
@@ -137,12 +139,16 @@ export const useTelnetNew = () => {
     }
 
     return {
-        connect,
-        disconnect,
-        status,
-        lastMessage,
-        addReceiveListener,
-        send
+        functions: {
+            connect,
+            disconnect,
+            send
+        },
+        data: {
+            status,
+            lastMessage,
+            lastTextMessage,
+        }
     }
 }
 
