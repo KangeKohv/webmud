@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 
 let ws: undefined | WebSocket;
 
@@ -69,23 +69,18 @@ export const useTelnetNew = () => {
     const [status, setStatus] = useState<State>(State.CLOSED);
     const [lastMessage, setLastMessage] = useState<Uint8Array>();
     const [lastTextMessage, setLastTextMessage] = useState("");
-    const [onReceiveListeners, setOnReceiveListeners] = useState<{ (arg0: string): void }[]>([])
-
-    const addReceiveListener = useMemo(() => ((func: { (arg0: string): void }) => {
-        setOnReceiveListeners(recListeners => Array.from(new Set([...recListeners, func])));
-    }), []);
 
     const connect = () => {
         updateStatus(State.CONNECTING);
-        setOnReceiveListeners([]);
         ws = new WebSocket('wss://discworld.starturtle.net:4244');
-        ws.addEventListener("open", (event) => {
+        // ws = new WebSocket('wss://javascript.info/article/websocket/chat/ws');
+        ws.addEventListener("open", () => {
             updateStatus(State.OPEN);
             if (ws?.binaryType === "blob") {
                 ws.binaryType = "arraybuffer";
             }
         });
-        ws.addEventListener("close", (event) => {
+        ws.addEventListener("close", () => {
             updateStatus(State.CLOSED);
         });
         ws.addEventListener("message", (event) => {
@@ -113,16 +108,15 @@ export const useTelnetNew = () => {
             // }
         } else {
             const text = new TextDecoder().decode(arr);
-            console.log("rec in useTelnet", text);
             setLastTextMessage(text);
         }
         setLastMessage(arr);
     };
 
-    const sendIAC = (sequence: number[]) => {
-        const arr = new Uint8Array(sequence);
-        ws?.send(arr);
-    }
+    // const sendIAC = (sequence: number[]) => {
+    //     const arr = new Uint8Array(sequence);
+    //     ws?.send(arr);
+    // }
 
     const disconnect = () => {
         updateStatus(State.CLOSING);
@@ -131,12 +125,18 @@ export const useTelnetNew = () => {
 
     const send = useMemo(() => (text: string) => {
         console.log("sending (ws) (text) (length)", ws, `(${text})`, text.length);
-        ws?.send(text + "\n");
+        ws?.send(text + "\r\n");
     }, []);
 
     const updateStatus = (state: State) => {
         setStatus(state);
     }
+
+    useEffect(() => {
+        if (!ws) {
+            setStatus(State.CLOSED);
+        }
+    }, [ws]);
 
     return {
         functions: {

@@ -12,7 +12,6 @@ export const MainLogLastMessage = () => {
         if (newText.length > MAX_LENGTH) {
             newText.shift();
         }
-        console.log("rec in mainlog", lastTextMessage);
         newText.push(lastTextMessage);
         setWindowText(newText);
     }, [lastTextMessage]);
