@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useTelnetContext} from "./telnet/telnetContext";
 
 const MAX_LENGTH = 4;
@@ -12,9 +12,10 @@ export const MainLogLastMessage = () => {
         if (newText.length > MAX_LENGTH) {
             newText.shift();
         }
+        console.log("rec in mainlog", lastTextMessage);
         newText.push(lastTextMessage);
         setWindowText(newText);
     }, [lastTextMessage]);
 
-    return <textarea disabled value={windowText.join('\n')}/>
+    return <textarea className="h-full w-full border-2" disabled value={windowText.join('\n')}/>
 }

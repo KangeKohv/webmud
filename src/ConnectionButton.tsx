@@ -1,5 +1,6 @@
 import {useTelnetContext} from "./telnet/telnetContext";
 import {State} from "./useTelnetNew";
+import React from "react";
 
 export const ConnectionButton = () => {
     const telnetContext = useTelnetContext();
@@ -7,7 +8,7 @@ export const ConnectionButton = () => {
     const {status} = telnetContext.data;
 
     const toggleConnection = () => {
-        if(status == State.OPEN) {
+        if(status === State.OPEN) {
             disconnect();
         } else {
             connect();
@@ -15,6 +16,6 @@ export const ConnectionButton = () => {
     }
 
     return (
-        <button onClick={toggleConnection}>Currently {status}</button>
+        <button className="btn btn-blue" onClick={toggleConnection}>Currently {status}</button>
     )
 }

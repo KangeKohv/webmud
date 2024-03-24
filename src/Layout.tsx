@@ -1,13 +1,20 @@
-import {useTelnetContext} from "./telnet/telnetContext";
 import {MainLogLastMessage} from "./MainLogLastMessage";
 import {ConnectionButton} from "./ConnectionButton";
+import {InputPanel} from "./InputPanel";
+import React from "react";
 
 export const Layout = () => {
-    const telnet = useTelnetContext();
     return (
-        <div>
-            <ConnectionButton/>
-            <MainLogLastMessage/>
+        <div style={{height: '100%'}} className="flex flex-col">
+            <div>
+                <ConnectionButton/>
+            </div>
+            <div className="grow">
+                <MainLogLastMessage/>
+            </div>
+            <div>
+                <InputPanel/>
+            </div>
         </div>
     )
 }

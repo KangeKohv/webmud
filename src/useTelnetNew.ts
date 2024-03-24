@@ -98,11 +98,11 @@ export const useTelnetNew = () => {
         const [head, ...rest] = arr;
         if (head === Options.IAC) {
             console.log("Received IAC", rest.map(byte => OptionsTexts[byte] ?? byte).join(" "));
-            if (rest[0] === Options.DO) {
-                if (rest[1] === Options.TerminalType) {
-                    sendIAC([Options.WILL, Options.TerminalType]);
-                }
-            }
+            // if (rest[0] === Options.DO) {
+            //     if (rest[1] === Options.TerminalType) {
+            //         sendIAC([Options.WILL, Options.TerminalType]);
+            //     }
+            // }
             // if (rest[0] === Options.WILL && rest[1] === Options.GMCP) {
             //     console.log("WILL GMCP");
             //     sendIAC([Options.IAC, Options.DO, Options.GMCP])
@@ -113,8 +113,7 @@ export const useTelnetNew = () => {
             // }
         } else {
             const text = new TextDecoder().decode(arr);
-            console.log(onReceiveListeners);
-            onReceiveListeners.forEach(fn => fn(text));
+            console.log("rec in useTelnet", text);
             setLastTextMessage(text);
         }
         setLastMessage(arr);
@@ -131,7 +130,8 @@ export const useTelnetNew = () => {
     }
 
     const send = useMemo(() => (text: string) => {
-        ws?.send(text);
+        console.log("sending (ws) (text) (length)", ws, `(${text})`, text.length);
+        ws?.send(text + "\n");
     }, []);
 
     const updateStatus = (state: State) => {
