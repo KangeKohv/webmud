@@ -5,7 +5,7 @@ const TelnetContext = React.createContext({
     functions: {
         connect: () => {},
         disconnect: () => {},
-        send: (arg0: string) => {},
+        send: (_arg0: string) => {},
     },
     data: {
         lastTextMessage: "",
