@@ -1,5 +1,5 @@
 import {useTelnetContext} from "./telnet/telnetContext";
-import {State} from "./useTelnetNew";
+import {State} from "./telnet/useTelnetNew";
 import React from "react";
 
 export const ConnectionButton = () => {

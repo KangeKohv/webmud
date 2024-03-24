@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {State, useTelnetNew} from "../useTelnetNew";
+import {State, useTelnetNew} from "./useTelnetNew";
 
 const TelnetContext = React.createContext({
     functions: {

@@ -124,7 +124,6 @@ export const useTelnetNew = () => {
     }
 
     const send = useMemo(() => (text: string) => {
-        console.log("sending (ws) (text) (length)", ws, `(${text})`, text.length);
         ws?.send(text + "\r\n");
     }, []);
 
