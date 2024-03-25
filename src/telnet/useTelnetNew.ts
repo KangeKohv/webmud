@@ -125,6 +125,7 @@ export const useTelnetNew = () => {
 
     const send = useMemo(() => (text: string) => {
         ws?.send(text + "\r\n");
+        setLastTextMessage(text + "\r\n");
     }, []);
 
     const updateStatus = (state: State) => {
