@@ -6,7 +6,6 @@ export const InputPanel = () => {
     const [text, setText] = useState("")
 
     const onInput = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        console.log("onInput", e.key);
         if(e.key === "Enter") {
             e.preventDefault();
             send(text);
