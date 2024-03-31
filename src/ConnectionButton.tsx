@@ -6,6 +6,7 @@ export const ConnectionButton = () => {
     const telnetContext = useTelnetContext();
     const {connect, disconnect} = telnetContext.functions;
     const {status} = telnetContext.data;
+    const statusText = status === State.OPEN ? "connected" : "disconnected";
 
     const toggleConnection = () => {
         if(status === State.OPEN) {
@@ -16,6 +17,6 @@ export const ConnectionButton = () => {
     }
 
     return (
-        <button className="btn btn-blue" onClick={toggleConnection}>Currently {status}</button>
+        <button className="btn btn-blue" onClick={toggleConnection}>Currently {statusText}</button>
     )
 }
